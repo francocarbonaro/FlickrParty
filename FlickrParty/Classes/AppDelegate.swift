@@ -1,4 +1,4 @@
-//
+
 //  AppDelegate.swift
 //  FlickrParty
 //
@@ -19,8 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = MainViewController()
         vc.view.backgroundColor = UIColor.whiteColor()
         
+        let navVc = UINavigationController(rootViewController: vc)
+        
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window!.rootViewController = vc
+        self.window!.rootViewController = navVc
         self.window?.makeKeyAndVisible()
         
         return true

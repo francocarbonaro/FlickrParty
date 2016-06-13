@@ -9,13 +9,281 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
+    var segmentedControl: UISegmentedControl?
+    
+    var containerView: UIView?
+    
+    var segmentedControlTopConstraint: NSLayoutConstraint?
+    
+    var containerViewTopConstraint: NSLayoutConstraint?
+    
+    var photosTableViewController: PhotosTableTableViewController?
+    
+    var photosCollectionViewController: PhotosCollectionViewController?
+    
+    static let segmentedControlTopPortrait: CGFloat = 64
+    static let segmentedControlTopLandscape: CGFloat = 32
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Flickr Party"
+        
+        self.createSegmentedControlIfNecessary()
+        
+        self.setupContainerView()
+        
+        self.setupPhotosTableViewController()
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
+        let isPortrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation)
+        
+        if let scTopConstraint = self.segmentedControlTopConstraint {
+            scTopConstraint.constant = (isPortrait) ? MainViewController.segmentedControlTopPortrait : MainViewController.segmentedControlTopLandscape
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+// MARK: - Private Methods
+    
+    private func createSegmentedControlIfNecessary() {
+        guard self.segmentedControl == nil else {
+            return
+        }
+        
+        let sc = UISegmentedControl(items: ["Lista", "Galeria"])
+        sc.selectedSegmentIndex = 0
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.addTarget(
+            self,
+            action: #selector(MainViewController.segmentedControlValueChanged),
+            forControlEvents: .ValueChanged
+        )
+        
+        self.view.addSubview(sc)
+        
+        self.view.addConstraint(NSLayoutConstraint(
+            item: sc,
+            attribute: .Leading,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Leading,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+     
+        self.view.addConstraint(NSLayoutConstraint(
+            item: sc,
+            attribute: .Trailing,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Trailing,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+
+        self.segmentedControlTopConstraint = NSLayoutConstraint(
+            item: sc,
+            attribute: .Top,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Top,
+            multiplier: 1.0,
+            constant: 64
+        )
+        
+        self.view.addConstraint(self.segmentedControlTopConstraint!)
+        
+        self.view.addConstraint(NSLayoutConstraint(
+            item: sc,
+            attribute: .Height,
+            relatedBy: .Equal,
+            toItem: nil,
+            attribute: .Height,
+            multiplier: 1.0,
+            constant: 30
+            )
+        )
+        
+        self.view.updateConstraints()
+        self.segmentedControl = sc
+    }
+    
+    private func setupContainerView() {
+        guard self.containerView == nil else {
+            return
+        }
+
+        let view = UIView()
+        view.backgroundColor = UIColor.blueColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        self.containerView = view
+        self.view.addSubview(view)
+        
+        self.view.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Leading,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Leading,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        self.view.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Trailing,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Trailing,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        self.view.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Top,
+            relatedBy: .Equal,
+            toItem: self.segmentedControl!,
+            attribute: .Bottom,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        self.view.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Bottom,
+            relatedBy: .Equal,
+            toItem: self.view,
+            attribute: .Bottom,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        self.view.updateConstraints()
+    }
+    
+    private func setupChildViewController(vc: UIViewController) {
+        guard let containerView = self.containerView else {
+            return
+        }
+        
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addChildViewController(vc)
+        containerView.addSubview(vc.view)
+        vc.didMoveToParentViewController(self)
+    }
+    
+    private func removeChildViewController(vc: UIViewController?) {
+        vc?.willMoveToParentViewController(nil)
+        vc?.view.removeFromSuperview()
+        vc?.removeFromParentViewController()
+    }
+    
+    private func setupPhotosTableViewController() {
+        guard let containerView = self.containerView else {
+            return
+        }
+        
+        self.removeChildViewController(self.photosCollectionViewController)
+        self.photosCollectionViewController = nil
+        
+        self.photosTableViewController = PhotosTableTableViewController(style: .Plain)
+        let vc = self.photosTableViewController!
+        
+        self.setupChildViewController(vc)
+        self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)
+        
+        self.view.updateConstraints()
+    }
+    
+    private func setupPhotosCollectionViewController() {
+        guard let containerView = self.containerView else {
+            return
+        }
+        
+        self.removeChildViewController(self.photosTableViewController)
+        self.photosTableViewController = nil
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
+        self.photosCollectionViewController = PhotosCollectionViewController(collectionViewLayout: layout)
+        let vc = self.photosCollectionViewController!
+        
+        self.setupChildViewController(vc)
+        self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)
+        
+        self.view.updateConstraints()
+    }
+    
+    private func addConstraintsToViewInContainerView(view: UIView, containerView: UIView) {
+        containerView.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Leading,
+            relatedBy: .Equal,
+            toItem: containerView,
+            attribute: .Leading,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        containerView.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Trailing,
+            relatedBy: .Equal,
+            toItem: containerView,
+            attribute: .Trailing,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        containerView.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Top,
+            relatedBy: .Equal,
+            toItem: containerView,
+            attribute: .Top,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+        
+        containerView.addConstraint(NSLayoutConstraint(
+            item: view,
+            attribute: .Bottom,
+            relatedBy: .Equal,
+            toItem: containerView,
+            attribute: .Bottom,
+            multiplier: 1.0,
+            constant: 0
+            )
+        )
+    }
+    
+    func segmentedControlValueChanged() {
+        if self.segmentedControl?.selectedSegmentIndex == 0 {
+            self.setupPhotosTableViewController()
+        }
+        else if self.segmentedControl?.selectedSegmentIndex == 1 {
+            self.setupPhotosCollectionViewController()
+        }
     }
 }
