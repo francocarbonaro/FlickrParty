@@ -12,7 +12,17 @@ class PhotosTableTableViewController: UITableViewController {
     
     static let cellIdentifier = "PhotoCellIdentifier"
     
-    var photosHeights: Array<CGFloat?> = Array<CGFloat?>(count:10, repeatedValue: nil)
+    var photosHeights: Array<CGFloat?> = Array<CGFloat?>()
+    
+    var photosItems = Array<PhotoItem>()  {
+        didSet {
+            for _ in self.photosHeights.count ..< self.photosItems.count {
+                self.photosHeights.append(nil)
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -22,6 +22,15 @@ class MainViewController: UIViewController {
     
     var photosCollectionViewController: PhotosCollectionViewController?
     
+    var photosItems = Array<PhotoItem>()  {
+        didSet {
+            self.photosTableViewController?.photosItems = self.photosItems
+            self.photosCollectionViewController?.photosItems = self.photosItems
+        }
+    }
+    
+
+    
     static let segmentedControlTopPortrait: CGFloat = 64
     static let segmentedControlTopLandscape: CGFloat = 32
     
@@ -35,6 +44,12 @@ class MainViewController: UIViewController {
         self.setupContainerView()
         
         self.setupPhotosTableViewController()
+        
+        let services = FlickrServices()
+        
+        services.searchPhotos { (results, error) in
+            self.photosItems = (results != nil) ? results! : Array<PhotoItem>()
+        }
     }
     
     override func updateViewConstraints() {
@@ -206,6 +221,7 @@ class MainViewController: UIViewController {
         
         self.photosTableViewController = PhotosTableTableViewController(style: .Plain)
         let vc = self.photosTableViewController!
+        vc.photosItems = self.photosItems
         
         self.setupChildViewController(vc)
         self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)
@@ -225,6 +241,7 @@ class MainViewController: UIViewController {
         
         self.photosCollectionViewController = PhotosCollectionViewController(collectionViewLayout: layout)
         let vc = self.photosCollectionViewController!
+        vc.photosItems = self.photosItems
         
         self.setupChildViewController(vc)
         self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)

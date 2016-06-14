@@ -23,7 +23,7 @@ extension PhotosTableTableViewController {
             return height
         }
         
-        return 100
+        return 500
     }
     
 }

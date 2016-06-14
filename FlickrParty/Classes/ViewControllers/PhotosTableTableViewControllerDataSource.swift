@@ -10,7 +10,7 @@ import UIKit
 
 extension PhotosTableTableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 10
+        return self.photosItems.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -25,17 +25,22 @@ extension PhotosTableTableViewController {
         ) as! PhotoTableViewCell
         
         cell.selectionStyle = .None
+
+        let photoItem = self.photosItems[indexPath.section]
         
-        let url = NSURL(string: (indexPath.section % 2 == 0) ? "https://farm8.staticflickr.com/7452/27587513596_f3d00cca30.jpg" : "https://farm8.staticflickr.com/7128/27519723042_51d7e1c7a2.jpg")!
-        
-        cell.photoImageView?.sd_setImageWithURL(url, placeholderImage: nil, options: .RefreshCached, completed: { (image, error, cacheTyp, url) in
+        cell.photoImageView?.sd_setImageWithURL(photoItem.downloadURL(), placeholderImage: nil, options: .RefreshCached, completed: { (image, error, cacheTyp, url) in
+            
+            cell.photoImageView?.image = image
+            
+            guard self.photosItems.count > indexPath.section else {
+                return
+            }
             
             let oldValue = self.photosHeights[indexPath.section]
             
             let newValue = image.size.height
             
-            self.photosHeights[indexPath.section] = newValue
-            cell.photoImageView?.image = image
+            self.photosHeights[indexPath.section] = newValue            
             
             if self.tableView.visibleCells.contains(cell) {
                 guard let value = oldValue else {
