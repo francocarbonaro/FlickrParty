@@ -25,6 +25,8 @@
 		3350ACDA1D0F8070003D87F5 /* PhotoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3350ACD91D0F8070003D87F5 /* PhotoItem.swift */; };
 		3350ACDF1D0F80BD003D87F5 /* PhotoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3350ACDE1D0F80BD003D87F5 /* PhotoItemTests.swift */; };
 		3350ACE11D0FAF34003D87F5 /* PhotosCollectionViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3350ACE01D0FAF34003D87F5 /* PhotosCollectionViewControllerDataSource.swift */; };
+		3350ACE31D0FB6F5003D87F5 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3350ACE21D0FB6F5003D87F5 /* PhotoDetailViewController.swift */; };
+		3350ACE51D0FBBCF003D87F5 /* PhotosCollectionViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3350ACE41D0FBBCF003D87F5 /* PhotosCollectionViewControllerDelegate.swift */; };
 		335393CA1D0CF05C00C3ECA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3353938E1D0CF05C00C3ECA0 /* AppDelegate.swift */; };
 		57FF0C10644D0EA661FF06AB /* Pods_FlickrParty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B75A0565BB5B1FF98783EBA /* Pods_FlickrParty.framework */; };
 /* End PBXBuildFile section */
@@ -63,6 +65,8 @@
 		3350ACDD1D0F80BD003D87F5 /* FlickrPartyTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FlickrPartyTests-Bridging-Header.h"; path = "Models/FlickrPartyTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		3350ACDE1D0F80BD003D87F5 /* PhotoItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoItemTests.swift; sourceTree = "<group>"; };
 		3350ACE01D0FAF34003D87F5 /* PhotosCollectionViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewControllerDataSource.swift; sourceTree = "<group>"; };
+		3350ACE21D0FB6F5003D87F5 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
+		3350ACE41D0FBBCF003D87F5 /* PhotosCollectionViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3353938E1D0CF05C00C3ECA0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3ECDEFAAE978FCD883631255 /* Pods-FlickrParty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrParty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrParty/Pods-FlickrParty.debug.xcconfig"; sourceTree = "<group>"; };
 		8B75A0565BB5B1FF98783EBA /* Pods_FlickrParty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrParty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,8 +237,10 @@
 				334B32871D0D02BC003F870A /* PhotosTableTableViewControllerDataSource.swift */,
 				334B32891D0D02E9003F870A /* PhotosTableViewControllerDelegate.swift */,
 				3350ACB11D0E2FA3003D87F5 /* PhotosCollectionViewController.swift */,
-				3350ACB51D0E65EE003D87F5 /* PhotosCollectionViewController+DelegateFlowLayout.swift */,
 				3350ACE01D0FAF34003D87F5 /* PhotosCollectionViewControllerDataSource.swift */,
+				3350ACE41D0FBBCF003D87F5 /* PhotosCollectionViewControllerDelegate.swift */,
+				3350ACB51D0E65EE003D87F5 /* PhotosCollectionViewController+DelegateFlowLayout.swift */,
+				3350ACE21D0FB6F5003D87F5 /* PhotoDetailViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -429,9 +435,11 @@
 				334B32881D0D02BC003F870A /* PhotosTableTableViewControllerDataSource.swift in Sources */,
 				3350ACB41D0E2FC6003D87F5 /* PhotoCollectionViewCell.swift in Sources */,
 				334B32841D0CFFE6003F870A /* PhotosTableTableViewController.swift in Sources */,
+				3350ACE31D0FB6F5003D87F5 /* PhotoDetailViewController.swift in Sources */,
 				334B328A1D0D02E9003F870A /* PhotosTableViewControllerDelegate.swift in Sources */,
 				3350ACB21D0E2FA3003D87F5 /* PhotosCollectionViewController.swift in Sources */,
 				3350ACDA1D0F8070003D87F5 /* PhotoItem.swift in Sources */,
+				3350ACE51D0FBBCF003D87F5 /* PhotosCollectionViewControllerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,4 +26,15 @@ extension PhotosTableTableViewController {
         return 500
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard self.photosItems.count > indexPath.section else {
+            return
+        }
+        
+        let photoItem = self.photosItems[indexPath.section]
+        
+        let vc = PhotoDetailViewController(photoItem: photoItem)
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }

@@ -8,6 +8,10 @@
 
 import UIKit
 
+private let kSegmentedControlTopPortrait: CGFloat = 64
+
+private let kSegmentedControlTopLandscape: CGFloat = 32
+
 class MainViewController: UIViewController {
     
     var segmentedControl: UISegmentedControl?
@@ -15,8 +19,6 @@ class MainViewController: UIViewController {
     var containerView: UIView?
     
     var segmentedControlTopConstraint: NSLayoutConstraint?
-    
-    var containerViewTopConstraint: NSLayoutConstraint?
     
     var photosTableViewController: PhotosTableTableViewController?
     
@@ -28,11 +30,6 @@ class MainViewController: UIViewController {
             self.photosCollectionViewController?.photosItems = self.photosItems
         }
     }
-    
-
-    
-    static let segmentedControlTopPortrait: CGFloat = 64
-    static let segmentedControlTopLandscape: CGFloat = 32
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +55,7 @@ class MainViewController: UIViewController {
         let isPortrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation)
         
         if let scTopConstraint = self.segmentedControlTopConstraint {
-            scTopConstraint.constant = (isPortrait) ? MainViewController.segmentedControlTopPortrait : MainViewController.segmentedControlTopLandscape
+            scTopConstraint.constant = (isPortrait) ? kSegmentedControlTopPortrait : kSegmentedControlTopLandscape
         }
     }
 
@@ -67,12 +64,14 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-// MARK: - Private Methods
+    // MARK: - Private Methods
     
     private func createSegmentedControlIfNecessary() {
         guard self.segmentedControl == nil else {
             return
         }
+        
+        let isPortrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation)
         
         let sc = UISegmentedControl(items: ["Lista", "Galeria"])
         sc.selectedSegmentIndex = 0
@@ -114,7 +113,7 @@ class MainViewController: UIViewController {
             toItem: self.view,
             attribute: .Top,
             multiplier: 1.0,
-            constant: 64
+            constant: (isPortrait) ? kSegmentedControlTopPortrait : kSegmentedControlTopLandscape
         )
         
         self.view.addConstraint(self.segmentedControlTopConstraint!)

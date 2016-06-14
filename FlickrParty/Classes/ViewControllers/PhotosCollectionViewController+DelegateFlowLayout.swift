@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+private let kSectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
 
 extension PhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
     
@@ -22,6 +22,6 @@ extension PhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                                insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return sectionInsets
+        return kSectionInsets
     }
 }
