@@ -29,6 +29,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.automaticallyAdjustsScrollViewInsets = false        
         self.createSegmentedControlIfNecessary()
         self.setupContainerView()
         self.setupPhotosCollectionViewController()

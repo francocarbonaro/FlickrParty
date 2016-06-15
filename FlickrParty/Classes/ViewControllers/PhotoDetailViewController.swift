@@ -36,14 +36,14 @@ class PhotoDetailViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupPhotoImageView()
-        
         self.setupActivityIndicatorView()
+        self.setupShareButton()
         
         self.photoImageView?.sd_setImageWithURL(self.photoItem.downloadURL(), completed: { (image, error, cacheType, url) in
             
             self.photoImageView?.image = image
-            
             self.activityIndicatorView?.stopAnimating()
+            self.navigationItem.rightBarButtonItem?.enabled = true
         })
     }
     
@@ -164,4 +164,32 @@ class PhotoDetailViewController: UIViewController {
         
         self.updateViewConstraints()
     }
+    
+    private func setupShareButton() {
+        let shareButton: UIBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .Action,
+            target: self,
+            action: #selector(PhotoDetailViewController.shareButtonTouched)
+        )
+        
+        shareButton.enabled = false
+        
+        self.navigationItem.rightBarButtonItem = shareButton
+    }
+    
+    func shareButtonTouched() {
+        guard let image = self.photoImageView?.image else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        
+        self.navigationController?.presentViewController(activityViewController, animated: true) {
+            
+        }
+    }
+    
 }
