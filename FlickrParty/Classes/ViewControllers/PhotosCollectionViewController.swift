@@ -28,9 +28,13 @@ class PhotosCollectionViewController: UICollectionViewController {
         self.collectionView?.backgroundColor = UIColor.whiteColor()
         
         self.registerCollectionViewCells()
-        
         self.setupRefreshControl()
     }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

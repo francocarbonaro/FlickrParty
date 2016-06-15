@@ -33,7 +33,6 @@ class PhotosTableTableViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor.whiteColor()
         
         self.registerTableViewCells()
-        
         self.setupRefreshControl()
     }
 

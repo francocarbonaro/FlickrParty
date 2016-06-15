@@ -8,9 +8,9 @@
 
 import UIKit
 
-private let kSegmentedControlTopPortrait: CGFloat = 64
+private let kViewTopPortrait: CGFloat = 64
 
-private let kSegmentedControlTopLandscape: CGFloat = 32
+private let kViewTopLandscape: CGFloat = 32
 
 class MainViewController: UIViewController {
     
@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     
     var containerView: UIView?
     
-    var segmentedControlTopConstraint: NSLayoutConstraint?
+    var topConstraint: NSLayoutConstraint?
     
     var photosTableViewController: PhotosTableTableViewController?
     
@@ -29,13 +29,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Flickr Party"
-        
         self.createSegmentedControlIfNecessary()
-        
         self.setupContainerView()
-        
-        self.setupPhotosTableViewController()
+        self.setupPhotosCollectionViewController()
         
         let services = FlickrServices()
         
@@ -55,11 +51,12 @@ class MainViewController: UIViewController {
         
         let isPortrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation)
         
-        if let scTopConstraint = self.segmentedControlTopConstraint {
-            scTopConstraint.constant = (isPortrait) ? kSegmentedControlTopPortrait : kSegmentedControlTopLandscape
+        if let topConstraint = self.topConstraint {
+            topConstraint.constant = (isPortrait) ? kViewTopPortrait : kViewTopLandscape
         }
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -72,66 +69,17 @@ class MainViewController: UIViewController {
             return
         }
         
-        let isPortrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation)
-        
-        let sc = UISegmentedControl(items: ["Lista", "Galeria"])
+        let sc = UISegmentedControl(items: ["Galeria", "Lista"])
         sc.selectedSegmentIndex = 0
-        sc.translatesAutoresizingMaskIntoConstraints = false
         sc.addTarget(
             self,
             action: #selector(MainViewController.segmentedControlValueChanged),
             forControlEvents: .ValueChanged
         )
         
-        self.view.addSubview(sc)
-        
-        self.view.addConstraint(NSLayoutConstraint(
-            item: sc,
-            attribute: .Leading,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Leading,
-            multiplier: 1.0,
-            constant: 0
-            )
-        )
-     
-        self.view.addConstraint(NSLayoutConstraint(
-            item: sc,
-            attribute: .Trailing,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Trailing,
-            multiplier: 1.0,
-            constant: 0
-            )
-        )
-
-        self.segmentedControlTopConstraint = NSLayoutConstraint(
-            item: sc,
-            attribute: .Top,
-            relatedBy: .Equal,
-            toItem: self.view,
-            attribute: .Top,
-            multiplier: 1.0,
-            constant: (isPortrait) ? kSegmentedControlTopPortrait : kSegmentedControlTopLandscape
-        )
-        
-        self.view.addConstraint(self.segmentedControlTopConstraint!)
-        
-        self.view.addConstraint(NSLayoutConstraint(
-            item: sc,
-            attribute: .Height,
-            relatedBy: .Equal,
-            toItem: nil,
-            attribute: .Height,
-            multiplier: 1.0,
-            constant: 30
-            )
-        )
-        
-        self.view.updateConstraints()
         self.segmentedControl = sc
+        
+        self.navigationItem.titleView = self.segmentedControl
     }
     
     private func setupContainerView() {
@@ -139,8 +87,9 @@ class MainViewController: UIViewController {
             return
         }
 
-        let view = UIView()
-        view.backgroundColor = UIColor.blueColor()
+        let isPortrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation)
+        
+        let view = UIView(frame: CGRectMake(0, 0, 0, 0))
         view.translatesAutoresizingMaskIntoConstraints = false
 
         self.containerView = view
@@ -168,16 +117,17 @@ class MainViewController: UIViewController {
             )
         )
         
-        self.view.addConstraint(NSLayoutConstraint(
+        self.topConstraint = NSLayoutConstraint(
             item: view,
             attribute: .Top,
             relatedBy: .Equal,
-            toItem: self.segmentedControl!,
-            attribute: .Bottom,
+            toItem: self.view,
+            attribute: .Top,
             multiplier: 1.0,
-            constant: 0
-            )
+            constant: (isPortrait) ? kViewTopPortrait : kViewTopLandscape
         )
+        
+        self.view.addConstraint(self.topConstraint!)
         
         self.view.addConstraint(NSLayoutConstraint(
             item: view,
@@ -227,8 +177,6 @@ class MainViewController: UIViewController {
         
         self.setupChildViewController(vc)
         self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)
-        
-        self.view.updateConstraints()
     }
     
     private func setupPhotosCollectionViewController() {
@@ -249,8 +197,6 @@ class MainViewController: UIViewController {
         
         self.setupChildViewController(vc)
         self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)
-        
-        self.view.updateConstraints()
     }
     
     private func addConstraintsToViewInContainerView(view: UIView, containerView: UIView) {
@@ -297,14 +243,17 @@ class MainViewController: UIViewController {
             constant: 0
             )
         )
+        
+        
+        self.view.updateConstraints()
     }
     
     func segmentedControlValueChanged() {
         if self.segmentedControl?.selectedSegmentIndex == 0 {
-            self.setupPhotosTableViewController()
+            self.setupPhotosCollectionViewController()
         }
         else if self.segmentedControl?.selectedSegmentIndex == 1 {
-            self.setupPhotosCollectionViewController()
+            self.setupPhotosTableViewController()
         }
     }
 }

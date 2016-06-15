@@ -251,15 +251,15 @@
 			children = (
 				334B32771D0CF2B4003F870A /* MainViewController.swift */,
 				3350ACE91D0FC400003D87F5 /* MainViewController+PhotoItemDelegate.swift */,
-				334B32831D0CFFE6003F870A /* PhotosTableTableViewController.swift */,
-				334B32871D0D02BC003F870A /* PhotosTableTableViewControllerDataSource.swift */,
-				334B32891D0D02E9003F870A /* PhotosTableViewControllerDelegate.swift */,
-				3350ACEF1D0FCB0B003D87F5 /* PhotosTableTableViewController+PhotosLayoutDelegate.swift */,
 				3350ACB11D0E2FA3003D87F5 /* PhotosCollectionViewController.swift */,
 				3350ACE01D0FAF34003D87F5 /* PhotosCollectionViewControllerDataSource.swift */,
 				3350ACE41D0FBBCF003D87F5 /* PhotosCollectionViewControllerDelegate.swift */,
 				3350ACF41D10F4F6003D87F5 /* PhotosCollectionView+PhotosLayout.swift */,
 				3350ACB51D0E65EE003D87F5 /* PhotosCollectionViewController+DelegateFlowLayout.swift */,
+				334B32831D0CFFE6003F870A /* PhotosTableTableViewController.swift */,
+				334B32871D0D02BC003F870A /* PhotosTableTableViewControllerDataSource.swift */,
+				334B32891D0D02E9003F870A /* PhotosTableViewControllerDelegate.swift */,
+				3350ACEF1D0FCB0B003D87F5 /* PhotosTableTableViewController+PhotosLayoutDelegate.swift */,
 				3350ACE21D0FB6F5003D87F5 /* PhotoDetailViewController.swift */,
 			);
 			path = ViewControllers;
