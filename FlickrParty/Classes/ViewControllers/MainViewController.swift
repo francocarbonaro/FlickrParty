@@ -70,7 +70,7 @@ class MainViewController: UIViewController {
             return
         }
         
-        let sc = UISegmentedControl(items: ["Galeria", "Lista"])
+        let sc = UISegmentedControl(items: ["Gallery", "List"])
         sc.selectedSegmentIndex = 0
         sc.addTarget(
             self,
