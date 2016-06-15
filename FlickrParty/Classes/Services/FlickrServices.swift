@@ -8,14 +8,14 @@
 
 import UIKit
 
-private let apiKey = "2ee33e4405b1db2798c530478c93378c"
+private let apiKey = "34be6c9fb73cdf2553650bb12103aa4c"
 
 private let defaultSearchTag = "party"
 
 class FlickrServices: NSObject {
     
     private func searchPhotosUrl() -> NSURL {
-        return NSURL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&tags=\(defaultSearchTag)&format=json&nojsoncallback=1&api_sig=7d87b1efad2d398d174482a2d6e5f541")!
+        return NSURL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(apiKey)&tags=\(defaultSearchTag)&format=json&nojsoncallback=1")!
     }
     
     func searchPhotos(completionBlock: (results: Array<PhotoItem>?, error: NSError?) -> Void) {

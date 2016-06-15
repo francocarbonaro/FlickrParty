@@ -24,12 +24,7 @@ class MainViewController: UIViewController {
     
     var photosCollectionViewController: PhotosCollectionViewController?
     
-    var photosItems = Array<PhotoItem>()  {
-        didSet {
-            self.photosTableViewController?.photosItems = self.photosItems
-            self.photosCollectionViewController?.photosItems = self.photosItems
-        }
-    }
+    var photosItems = Array<PhotoItem>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +40,13 @@ class MainViewController: UIViewController {
         let services = FlickrServices()
         
         services.searchPhotos { (results, error) in
-            self.photosItems = (results != nil) ? results! : Array<PhotoItem>()
+            guard let items = results else {
+                return
+            }
+            
+            self.photosItems += items
+            self.photosTableViewController?.photosItems += items
+            self.photosCollectionViewController?.photosItems += items
         }
     }
     
@@ -219,8 +220,10 @@ class MainViewController: UIViewController {
         self.photosCollectionViewController = nil
         
         self.photosTableViewController = PhotosTableTableViewController(style: .Plain)
+        
         let vc = self.photosTableViewController!
         vc.photosItems = self.photosItems
+        vc.delegate = self
         
         self.setupChildViewController(vc)
         self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)
@@ -239,8 +242,10 @@ class MainViewController: UIViewController {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
         self.photosCollectionViewController = PhotosCollectionViewController(collectionViewLayout: layout)
+        
         let vc = self.photosCollectionViewController!
         vc.photosItems = self.photosItems
+        vc.delegate = self
         
         self.setupChildViewController(vc)
         self.addConstraintsToViewInContainerView(vc.view, containerView: containerView)

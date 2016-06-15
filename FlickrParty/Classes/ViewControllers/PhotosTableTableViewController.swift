@@ -24,6 +24,8 @@ class PhotosTableTableViewController: UITableViewController {
         }
     }
     
+    weak var delegate: PhotoItemDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +33,8 @@ class PhotosTableTableViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor.whiteColor()
         
         self.registerTableViewCells()
+        
+        self.setupRefreshControl()
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,5 +49,31 @@ class PhotosTableTableViewController: UITableViewController {
             forCellReuseIdentifier: PhotosTableTableViewController.cellIdentifier
         )
     }
+    
+    private func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(
+            self,
+            action: #selector(PhotosTableTableViewController.refresh),
+            forControlEvents: .ValueChanged
+        )
+        
+        self.tableView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
+    }
+    
+    func refresh() {
+        if let rc = self.refreshControl {
+            rc.endRefreshing()
+        }
+
+        guard let del = self.delegate else {
+            return
+        }
+        
+        del.getNewPhotos()
+    }
+    
 }
 

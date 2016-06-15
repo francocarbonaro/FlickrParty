@@ -19,7 +19,7 @@ extension PhotosTableTableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if let height = self.photosHeights[indexPath.section] {
+        if let height = self.photosHeights[indexPath.row] {
             return height
         }
         
@@ -27,11 +27,11 @@ extension PhotosTableTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard self.photosItems.count > indexPath.section else {
+        guard self.photosItems.count > indexPath.row else {
             return
         }
         
-        let photoItem = self.photosItems[indexPath.section]
+        let photoItem = self.photosItems[indexPath.row]
         
         let vc = PhotoDetailViewController(photoItem: photoItem)
         

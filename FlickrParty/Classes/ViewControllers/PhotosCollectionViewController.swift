@@ -18,18 +18,56 @@ class PhotosCollectionViewController: UICollectionViewController {
         }
     }
     
+    weak var delegate: PhotoItemDelegate?
+    
+    var refreshControl: UIRefreshControl?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.collectionView?.backgroundColor = UIColor.whiteColor()
+        
+        self.registerCollectionViewCells()
+        
+        self.setupRefreshControl()
+    }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
+    // MARK: - Private Methods
+    
+    private func registerCollectionViewCells() {
         self.collectionView!.registerClass(
             PhotoCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotosCollectionViewController.cellIdentifier
         )
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    private func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(PhotosTableTableViewController.refresh),
+            forControlEvents: .ValueChanged
+        )
+        
+        self.collectionView!.addSubview(refreshControl)
+        self.refreshControl = refreshControl
     }
+    
+    func refresh() {
+        if let rc = self.refreshControl {
+            rc.endRefreshing()
+        }
+        
+        guard let del = self.delegate else {
+            return
+        }
+        
+        del.getNewPhotos()
+    }
+
 }
